@@ -139,6 +139,7 @@ public class NewsWidget extends javax.swing.JFrame {
         topNewsTab = new javax.swing.JPanel();
         businessNewsScrollPane = new javax.swing.JScrollPane();
         businessNewsTab = new javax.swing.JPanel();
+        technologyNewsScrollPane = new javax.swing.JScrollPane();
         technologyNewsTab = new javax.swing.JPanel();
         worldNewsTab = new javax.swing.JPanel();
 
@@ -192,7 +193,9 @@ public class NewsWidget extends javax.swing.JFrame {
             .addGap(0, 324, Short.MAX_VALUE)
         );
 
-        tabbedPane.addTab("Technology", technologyNewsTab);
+        technologyNewsScrollPane.setViewportView(technologyNewsTab);
+
+        tabbedPane.addTab("Technology", technologyNewsScrollPane);
 
         javax.swing.GroupLayout worldNewsTabLayout = new javax.swing.GroupLayout(worldNewsTab);
         worldNewsTab.setLayout(worldNewsTabLayout);
@@ -266,6 +269,7 @@ public class NewsWidget extends javax.swing.JFrame {
     private javax.swing.JScrollPane businessNewsScrollPane;
     private javax.swing.JPanel businessNewsTab;
     private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JScrollPane technologyNewsScrollPane;
     private javax.swing.JPanel technologyNewsTab;
     private javax.swing.JScrollPane topNewsScrollPane;
     private javax.swing.JPanel topNewsTab;
