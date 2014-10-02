@@ -153,7 +153,7 @@ public class NewsWidget extends javax.swing.JFrame {
         worldNewsjScrollPane = new javax.swing.JScrollPane();
         worldNewsTab = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
 
         topNewsTab.addFocusListener(new java.awt.event.FocusAdapter() {
