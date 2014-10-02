@@ -28,18 +28,26 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  *
@@ -78,8 +86,28 @@ public class NewsWidget extends javax.swing.JFrame {
         List<SyndEntry> newsList = topNewsList();
         topNewsTab.setLayout(new GridLayout(newsList.size() * 2, 1));
         
-        newsList.stream().forEach((news) -> {
-            topNewsTab.add(new JLabel(news.getTitle()));
+        newsList.stream().forEach((SyndEntry news) -> {
+            JLabel newsLabel = new JLabel("<HTML><U>" + news.getTitle() + "</U></HTML>");
+            newsLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+            newsLabel.setForeground(Color.blue);
+            newsLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            newsLabel.addMouseListener(new MouseInputAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() > 0) {
+                        if (Desktop.isDesktopSupported()) {
+                            try {
+                                Desktop desktop = Desktop.getDesktop();
+                                URI uri = new URI(news.getUri());
+                                desktop.browse(uri);
+                            } catch (URISyntaxException | IOException ex) {
+                                Logger.getLogger(NewsWidget.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+            });
+            topNewsTab.add(newsLabel);
             topNewsTab.add(new JLabel(""));
         });
     }
