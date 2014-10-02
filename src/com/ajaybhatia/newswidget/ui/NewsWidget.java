@@ -23,23 +23,38 @@
  */
 package com.ajaybhatia.newswidget.ui;
 
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 /**
  *
  * @author ajay
  */
 public class NewsWidget extends javax.swing.JFrame {
-
+    private URL urlTopNews;
+    
     /**
      * Creates new form NewsWidget
      */
     public NewsWidget() {
         initComponents();
         placeAtRightCorner();
+        initTopNews();
     }
     
     private void placeAtRightCorner() {
@@ -53,6 +68,34 @@ public class NewsWidget extends javax.swing.JFrame {
         setLocation(new Point(x, y));
     }
 
+    private void initTopNews() {
+        try {
+            urlTopNews = new URL("http://feeds.reuters.com/reuters/INtopNews?format=xml");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(NewsWidget.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        List<SyndEntry> newsList = topNewsList();
+        topNewsTab.setLayout(new GridLayout(newsList.size() * 2, 1));
+        
+        newsList.stream().forEach((news) -> {
+            topNewsTab.add(new JLabel(news.getTitle()));
+            topNewsTab.add(new JLabel(""));
+        });
+    }
+    
+    private List<SyndEntry> topNewsList() {
+        SyndFeedInput feedInput = new SyndFeedInput();
+        try {
+            SyndFeed syndFeed = feedInput.build(new XmlReader(urlTopNews));
+            return syndFeed.getEntries();
+        } catch (IllegalArgumentException | FeedException | IOException ex) {
+            Logger.getLogger(NewsWidget.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,6 +106,7 @@ public class NewsWidget extends javax.swing.JFrame {
     private void initComponents() {
 
         tabbedPane = new javax.swing.JTabbedPane();
+        topNewsScrollPane = new javax.swing.JScrollPane();
         topNewsTab = new javax.swing.JPanel();
         businessNewsTab = new javax.swing.JPanel();
         technologyNewsTab = new javax.swing.JPanel();
@@ -70,6 +114,12 @@ public class NewsWidget extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+
+        topNewsTab.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                topNewsTabFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout topNewsTabLayout = new javax.swing.GroupLayout(topNewsTab);
         topNewsTab.setLayout(topNewsTabLayout);
@@ -82,7 +132,9 @@ public class NewsWidget extends javax.swing.JFrame {
             .addGap(0, 324, Short.MAX_VALUE)
         );
 
-        tabbedPane.addTab("Top News", topNewsTab);
+        topNewsScrollPane.setViewportView(topNewsTab);
+
+        tabbedPane.addTab("Top News", topNewsScrollPane);
 
         javax.swing.GroupLayout businessNewsTabLayout = new javax.swing.GroupLayout(businessNewsTab);
         businessNewsTab.setLayout(businessNewsTabLayout);
@@ -128,18 +180,22 @@ public class NewsWidget extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void topNewsTabFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_topNewsTabFocusGained
+        
+    }//GEN-LAST:event_topNewsTabFocusGained
 
     /**
      * @param args the command line arguments
@@ -169,10 +225,8 @@ public class NewsWidget extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NewsWidget().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new NewsWidget().setVisible(true);
         });
     }
 
@@ -180,6 +234,7 @@ public class NewsWidget extends javax.swing.JFrame {
     private javax.swing.JPanel businessNewsTab;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JPanel technologyNewsTab;
+    private javax.swing.JScrollPane topNewsScrollPane;
     private javax.swing.JPanel topNewsTab;
     private javax.swing.JPanel worldNewsTab;
     // End of variables declaration//GEN-END:variables
