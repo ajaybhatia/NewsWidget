@@ -141,6 +141,7 @@ public class NewsWidget extends javax.swing.JFrame {
         businessNewsTab = new javax.swing.JPanel();
         technologyNewsScrollPane = new javax.swing.JScrollPane();
         technologyNewsTab = new javax.swing.JPanel();
+        worldNewsjScrollPane = new javax.swing.JScrollPane();
         worldNewsTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -208,7 +209,9 @@ public class NewsWidget extends javax.swing.JFrame {
             .addGap(0, 324, Short.MAX_VALUE)
         );
 
-        tabbedPane.addTab("World", worldNewsTab);
+        worldNewsjScrollPane.setViewportView(worldNewsTab);
+
+        tabbedPane.addTab("World", worldNewsjScrollPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -274,5 +277,6 @@ public class NewsWidget extends javax.swing.JFrame {
     private javax.swing.JScrollPane topNewsScrollPane;
     private javax.swing.JPanel topNewsTab;
     private javax.swing.JPanel worldNewsTab;
+    private javax.swing.JScrollPane worldNewsjScrollPane;
     // End of variables declaration//GEN-END:variables
 }
