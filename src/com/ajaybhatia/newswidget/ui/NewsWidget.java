@@ -23,6 +23,7 @@
  */
 package com.ajaybhatia.newswidget.ui;
 
+import com.sun.awt.AWTUtilities;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
@@ -63,10 +64,15 @@ public class NewsWidget extends javax.swing.JFrame {
     public NewsWidget() {
         initComponents();
         placeAtRightCorner();
+        setWindowTransparent(0.75f);
         initNews(topNewsTab, "http://feeds.reuters.com/reuters/INtopNews");
         initNews(businessNewsTab, "http://feeds.reuters.com/reuters/INbusinessNews");
         initNews(technologyNewsTab, "http://feeds.reuters.com/reuters/INtechnologyNews");
         initNews(worldNewsTab, "http://feeds.reuters.com/reuters/INworldNews");
+    }
+    
+    private void setWindowTransparent(float opacity) {
+        AWTUtilities.setWindowOpacity(this, opacity);
     }
     
     private void placeAtRightCorner() {
