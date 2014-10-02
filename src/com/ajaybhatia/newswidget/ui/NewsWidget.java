@@ -66,6 +66,7 @@ public class NewsWidget extends javax.swing.JFrame {
         topNewsTab = new javax.swing.JPanel();
         businessNewsTab = new javax.swing.JPanel();
         technologyNewsTab = new javax.swing.JPanel();
+        worldNewsTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -108,6 +109,19 @@ public class NewsWidget extends javax.swing.JFrame {
         );
 
         tabbedPane.addTab("Technology", technologyNewsTab);
+
+        javax.swing.GroupLayout worldNewsTabLayout = new javax.swing.GroupLayout(worldNewsTab);
+        worldNewsTab.setLayout(worldNewsTabLayout);
+        worldNewsTabLayout.setHorizontalGroup(
+            worldNewsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 544, Short.MAX_VALUE)
+        );
+        worldNewsTabLayout.setVerticalGroup(
+            worldNewsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 324, Short.MAX_VALUE)
+        );
+
+        tabbedPane.addTab("World", worldNewsTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,5 +181,6 @@ public class NewsWidget extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JPanel technologyNewsTab;
     private javax.swing.JPanel topNewsTab;
+    private javax.swing.JPanel worldNewsTab;
     // End of variables declaration//GEN-END:variables
 }
