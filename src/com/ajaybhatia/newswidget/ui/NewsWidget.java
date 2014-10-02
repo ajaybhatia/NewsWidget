@@ -23,7 +23,6 @@
  */
 package com.ajaybhatia.newswidget.ui;
 
-import com.sun.awt.AWTUtilities;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
@@ -72,7 +71,7 @@ public class NewsWidget extends javax.swing.JFrame {
     }
     
     private void setWindowTransparent(float opacity) {
-        AWTUtilities.setWindowOpacity(this, opacity);
+        setOpacity(opacity);
     }
     
     private void placeAtRightCorner() {
