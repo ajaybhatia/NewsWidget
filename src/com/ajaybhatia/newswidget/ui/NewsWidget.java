@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 /**
@@ -62,7 +63,7 @@ public class NewsWidget extends javax.swing.JFrame {
     public NewsWidget() {
         initComponents();
         placeAtRightCorner();
-        initTopNews();
+        initNews(topNewsTab, "http://feeds.reuters.com/reuters/INtopNews");
     }
     
     private void placeAtRightCorner() {
@@ -76,15 +77,15 @@ public class NewsWidget extends javax.swing.JFrame {
         setLocation(new Point(x, y));
     }
 
-    private void initTopNews() {
+    private void initNews(JPanel panel, String uri) {
         try {
-            urlTopNews = new URL("http://feeds.reuters.com/reuters/INtopNews?format=xml");
+            urlTopNews = new URL(uri);
         } catch (MalformedURLException ex) {
             Logger.getLogger(NewsWidget.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         List<SyndEntry> newsList = topNewsList();
-        topNewsTab.setLayout(new GridLayout(newsList.size() * 2, 1));
+        panel.setLayout(new GridLayout(newsList.size() * 2, 1));
         
         newsList.stream().forEach((SyndEntry news) -> {
             JLabel newsLabel = new JLabel("<HTML><U>" + news.getTitle() + "</U></HTML>");
@@ -107,8 +108,8 @@ public class NewsWidget extends javax.swing.JFrame {
                     }
                 }
             });
-            topNewsTab.add(newsLabel);
-            topNewsTab.add(new JLabel(""));
+            panel.add(newsLabel);
+            panel.add(new JLabel(""));
         });
     }
     
