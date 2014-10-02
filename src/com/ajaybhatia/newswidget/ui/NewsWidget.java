@@ -37,6 +37,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -48,6 +50,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.event.MouseInputAdapter;
 
 /**
@@ -64,10 +67,18 @@ public class NewsWidget extends javax.swing.JFrame {
         initComponents();
         placeAtRightCorner();
         setWindowTransparent(0.75f);
-        initNews(topNewsTab, "http://feeds.reuters.com/reuters/INtopNews");
-        initNews(businessNewsTab, "http://feeds.reuters.com/reuters/INbusinessNews");
-        initNews(technologyNewsTab, "http://feeds.reuters.com/reuters/INtechnologyNews");
-        initNews(worldNewsTab, "http://feeds.reuters.com/reuters/INworldNews");
+        
+        Timer timer = new Timer(0, (ActionEvent e) -> {
+            initNews(topNewsTab, "http://feeds.reuters.com/reuters/INtopNews");
+            initNews(businessNewsTab, "http://feeds.reuters.com/reuters/INbusinessNews");
+            initNews(technologyNewsTab, "http://feeds.reuters.com/reuters/INtechnologyNews");
+            initNews(worldNewsTab, "http://feeds.reuters.com/reuters/INworldNews");
+            System.out.println("Fired");
+        });
+        
+        timer.setRepeats(true);
+        timer.start();
+        timer.setDelay(1000 * 60 * 5);
     }
     
     private void setWindowTransparent(float opacity) {
@@ -93,6 +104,11 @@ public class NewsWidget extends javax.swing.JFrame {
         }
         
         List<SyndEntry> newsList = newsList();
+        
+        if (newsList.size() <= 0)
+            return;
+        
+        panel.removeAll();
         panel.setLayout(new GridLayout(newsList.size() * 2, 1));
         
         newsList.stream().forEach((SyndEntry news) -> {
@@ -154,12 +170,6 @@ public class NewsWidget extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
-
-        topNewsTab.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                topNewsTabFocusGained(evt);
-            }
-        });
 
         javax.swing.GroupLayout topNewsTabLayout = new javax.swing.GroupLayout(topNewsTab);
         topNewsTab.setLayout(topNewsTabLayout);
@@ -238,10 +248,6 @@ public class NewsWidget extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void topNewsTabFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_topNewsTabFocusGained
-        
-    }//GEN-LAST:event_topNewsTabFocusGained
 
     /**
      * @param args the command line arguments

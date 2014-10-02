@@ -56,9 +56,6 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="topNewsTab">
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="topNewsTabFocusGained"/>
-              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
