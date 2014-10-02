@@ -23,6 +23,11 @@
  */
 package com.ajaybhatia.newswidget.ui;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 /**
  *
  * @author ajay
@@ -34,6 +39,18 @@ public class NewsWidget extends javax.swing.JFrame {
      */
     public NewsWidget() {
         initComponents();
+        placeAtRightCorner();
+    }
+    
+    private void placeAtRightCorner() {
+        // Scale from right (Right Edge Gutter)
+        final int SCALE_X = 50;
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+        Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+        int x = (int)rect.getMaxX() - getWidth() - SCALE_X;
+        int y = 70;
+        setLocation(new Point(x, y));
     }
 
     /**
