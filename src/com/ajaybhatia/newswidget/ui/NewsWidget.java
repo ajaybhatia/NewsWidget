@@ -55,7 +55,7 @@ import javax.swing.event.MouseInputAdapter;
  * @author ajay
  */
 public class NewsWidget extends javax.swing.JFrame {
-    private URL urlTopNews;
+    private URL urlNews;
     
     /**
      * Creates new form NewsWidget
@@ -64,6 +64,9 @@ public class NewsWidget extends javax.swing.JFrame {
         initComponents();
         placeAtRightCorner();
         initNews(topNewsTab, "http://feeds.reuters.com/reuters/INtopNews");
+        initNews(businessNewsTab, "http://feeds.reuters.com/reuters/INbusinessNews");
+        initNews(technologyNewsTab, "http://feeds.reuters.com/reuters/INtechnologyNews");
+        initNews(worldNewsTab, "http://feeds.reuters.com/reuters/INworldNews");
     }
     
     private void placeAtRightCorner() {
@@ -79,12 +82,12 @@ public class NewsWidget extends javax.swing.JFrame {
 
     private void initNews(JPanel panel, String uri) {
         try {
-            urlTopNews = new URL(uri);
+            urlNews = new URL(uri);
         } catch (MalformedURLException ex) {
             Logger.getLogger(NewsWidget.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        List<SyndEntry> newsList = topNewsList();
+        List<SyndEntry> newsList = newsList();
         panel.setLayout(new GridLayout(newsList.size() * 2, 1));
         
         newsList.stream().forEach((SyndEntry news) -> {
@@ -113,10 +116,10 @@ public class NewsWidget extends javax.swing.JFrame {
         });
     }
     
-    private List<SyndEntry> topNewsList() {
+    private List<SyndEntry> newsList() {
         SyndFeedInput feedInput = new SyndFeedInput();
         try {
-            SyndFeed syndFeed = feedInput.build(new XmlReader(urlTopNews));
+            SyndFeed syndFeed = feedInput.build(new XmlReader(urlNews));
             return syndFeed.getEntries();
         } catch (IllegalArgumentException | FeedException | IOException ex) {
             Logger.getLogger(NewsWidget.class.getName()).log(Level.SEVERE, null, ex);
